@@ -1,8 +1,11 @@
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { ThemeProvider } from "styled-components";
-import { theme } from "./theme";
+import { DarkTheme, lightTheme } from "./theme";
 import { QueryClient, QueryClientProvider } from "react-query";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 const queryClient = new QueryClient();
 
@@ -11,7 +14,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <QueryClientProvider client={queryClient}>
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={DarkTheme}>
       <App />
     </ThemeProvider>
   </QueryClientProvider>
