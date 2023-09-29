@@ -11,6 +11,7 @@
     "@types/react": "^18.2.23",
     "@types/react-dom": "^18.2.8",
     "apexcharts": "^3.42.0",
+    "gh-pages": "^6.0.0",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",
     "react-dom": "^18.2.0",
@@ -48,6 +49,7 @@
       "last 1 safari version"
     ]
   },
+  "homepage": "https://jiwonkim16.github.io/nomad-challenge",
   "devDependencies": {
     "@types/react-helmet": "^6.1.7",
     "@types/react-router-dom": "^5.3.3",
