@@ -12,6 +12,9 @@ import {
 import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
+import { Helmet } from "react-helmet";
+import { isDarkAtom } from "../atom";
+import { useSetRecoilState } from "recoil";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -155,15 +158,27 @@ function Coin() {
   );
   const { isLoading: tickersLoading, data: tickersData } = useQuery<PriceData>(
     ["tickers", coinId],
-    () => fetchCoinTickers(coinId)
+    () => fetchCoinTickers(coinId),
+    { refetchInterval: 5000 }
   );
   const loading = infoLoading || tickersLoading;
+  const setterFn = useSetRecoilState(isDarkAtom);
   return (
     <Container>
+      <Helmet>
+        <title>코인 트레커</title>
+      </Helmet>
       <Header>
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </Title>
+        <button
+          onClick={() => {
+            setterFn((current) => !current);
+          }}
+        >
+          ToggleButton
+        </button>
       </Header>
       {loading ? (
         <Loader>Loading...</Loader>
@@ -179,8 +194,8 @@ function Coin() {
               <span>${infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
-              <span>Open Source:</span>
-              <span>{infoData?.open_source ? "Yes" : "No"}</span>
+              <span>Price</span>
+              <span>{tickersData?.quotes.USD.price.toFixed(3)}</span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>
@@ -204,12 +219,15 @@ function Coin() {
           </Tabs>
           <Switch>
             <Route path={`/:coinId/price`}>
-              <Price />
+              <Price coinId={coinId} />
             </Route>
             <Route path={`/:coinId/chart`}>
               <Chart coinId={coinId} />
             </Route>
           </Switch>
+          <button>
+            <Link to="/">돌아가기</Link>
+          </button>
         </>
       )}
     </Container>
